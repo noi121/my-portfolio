@@ -1,72 +1,95 @@
 @import "tailwindcss";
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* ——— Brand tokens ——— */
+:root{
+  --page: 48 29% 98%;
+  --surface: 0 0% 100%;
+  --ink: 225 15% 18%;
+  --muted: 225 10% 45%;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --mustard: 43 96% 56%;
+  --mustard-600: 43 96% 48%;
+  --mustard-700: 43 96% 40%;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --shadow: 225 10% 10% / 0.06;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+/* Global base */
+html, body { 
+  height: 100%; 
+  margin: .5em;}
+html { color-scheme: light; }
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  background: hsl(var(--page));
+  color: hsl(var(--ink));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Inter font (optional) */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap");
+html { font-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+
+/* Reusable components (no @apply) */
+.card {
+  background: hsl(var(--surface));
+  border: 1px solid hsl(0 0% 93%);
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px -10px hsl(var(--shadow));
+  margin-top: .5em;
+  padding: .5em;
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .5rem .9rem; border-radius: .6rem; font-weight: 600;
+  background: hsl(var(--mustard)); color: white;
+  transition: transform .08s ease, background-color .15s ease;
+}
+.btn:hover { background: hsl(var(--mustard-600)); }
+.btn:active { transform: translateY(1px); }
+.btn-outline{
+  background: transparent; color: hsl(var(--ink));
+  border: 1px solid hsl(0 0% 86%);
+}
+.btn-outline:hover{ border-color: hsl(var(--mustard)); color: hsl(var(--mustard-700)); }
+
+.chip {
+  display:inline-block; padding:.25rem .5rem; border-radius:.5rem;
+  border:1px solid hsl(0 0% 90%); background: hsl(48 29% 98% / 0.8);
+  font-size:.8rem; color: hsl(var(--muted));
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+/* helpers */
+.text-ink     { color: hsl(var(--ink)); }
+.text-muted   { color: hsl(var(--muted)); }
+.bg-page      { background: hsl(var(--page)); }
+.bg-surface   { background: hsl(var(--surface)); }
+.text-mustard { color: hsl(var(--mustard)); }
+
+/* active underline for nav items */
+.nav-item { position: relative; line-height: 1; }
+.nav-item::after {
+  content: "";
+  position: absolute;
+  left: .75rem; right: .75rem;
+  bottom: .10rem;               /* lower = further from the text */
+  height: 2px; border-radius: 2px;
+  background: hsl(var(--muted));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .18s ease, background-color .18s ease, opacity .18s ease;
+  opacity: .6;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.nav-item:hover::after { transform: scaleX(1); }
+.nav-item[aria-current="page"]::after {
+  background: hsl(var(--mustard));
+  opacity: 1;
+  transform: scaleX(1);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* hero background */
+.hero-spot {
+  background:
+    radial-gradient(800px 500px at 15% 10%, hsl(var(--mustard) / 0.12), transparent 60%),
+    radial-gradient(600px 400px at 85% 20%, hsl(225 15% 18% / 0.05), transparent 60%);
 }
-
-
